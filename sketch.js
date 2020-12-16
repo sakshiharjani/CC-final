@@ -30,17 +30,28 @@ let timePassed = 0
 let timeSinceStart = 0 
 let maxTime = 30000
 let theta = 0
+let loading = true
+
+
+function soundLoaded(song) {
+  soundtrack = song
+  soundtrack.stop()
+  loading = false
+}
+
+function imageLoaded(image){
+  arrow = image
+  hammer = image
+  loading = false 
+  
+}
+
+
 
 function preload() {
-  soundFormats('mp3')
-  soundtrack = loadSound('forestgame.mp3')
-  //sound source https://freesound.org/people/Baltiyar13/sounds/516916/
   font = loadFont('MinecraftTen-VGORe.ttf')
   //font source https://www.fontspace.com/minecraft-ten-font-f40317
-  arrow = loadImage('arrow.png')
-  //image source http://clipart-library.com/clipart/8iEjzrn8T.htm
-  hammer = loadImage('hammer.png')
-  //image source https://www.clipartmax.com/max/m2i8K9i8m2H7d3d3/
+  
 }
 
 function restartGame() {
@@ -49,17 +60,25 @@ function restartGame() {
   dartsscore = 0
   balloonscore = 0
   molescore = 0
+  xWidth = 200
+  xloc = 300
+  yloc = 300
 }
 
 function setup() {
   createCanvas(900, 600);
   speed = 5
-  
+  soundtrack = loadSound('forestgame.mp3', soundLoaded)
+  arrow = loadImage('arrow.png')
+  //image source http://clipart-library.com/clipart/8iEjzrn8T.htm
+  hammer = loadImage('hammer.png')
+  //image source https://www.clipartmax.com/max/m2i8K9i8m2H7d3d3/
+   // //sound source https://freesound.org/people/Baltiyar13/sounds/516916/
   
   for (let b = 0; b < 50; b++) {
     balloons.push({
-      clr: color(random(0, 200), random(0, 100), random(100, 200)),
-      x: random(100, width-100),
+      clr: color(random(135), random(0), random(245)),
+      x: random(50, width-50),
       y: random(200, height-200),
       size: 50
     })
@@ -72,7 +91,13 @@ function setup() {
 
 
 function draw() {
-  
+    if (loading) {
+    background(200, 200, 250)
+    textFont(font, 15)
+    text('loading', width/2, height/2)
+    drawTarget(xloc, yloc+ 100, xWidth, numberofRings)
+    xloc += speed
+  } else {
   if(game === 0){
     drawMenu()
   }else if (game === one) {
@@ -106,16 +131,17 @@ function draw() {
     fill(200, 0, 255)
     ellipse(width/2 - 90, height-40, 40)
    }
+  }
 }
 
 function drawMenu() {
+  
   background(250, 150, 150)
 
   textFont(font, 40)
   textAlign(CENTER)
   text('Click anywhere to begin!', width-247, height - 10)
-  textFont(font, 20)
-  text('Press v to play music.', 120, height- 10 )
+  
   
   fill(200, 200, 250, 70)
   quad(50, 120, 850, 120, 880, 500, 20, 500)
@@ -156,52 +182,51 @@ function drawMenu() {
     ellipse((200*c) + 80, height/2 + 70, 20)
     fill(200, 0, 255)
     ellipse((200*c) +20, height/2+70, 20)
-    
-    
-    
   }
   
   fill('purple')
   textFont(font, 100)
   text("SAKSHI'S ARCADE", 450, 100)
   
-  fill(120, 100, 200, 200)
+  fill(120, 100, 200)
   quad(200, 225, 300, 225, 290, 300, 210, 300)
-  fill('purple')
+  fill(135, 220, 245)
   textFont(font, 15)
   text('DartMania!', 250, 260)
   textSize(9)
   text('1000 Points to Win', 250, 280)
   
-  fill(220, 200, 100, 200)
-  quad(405, 225, 495, 225, 490, 300, 410, 300)
+  fill(220, 200, 100)
+  quad(402, 225, 497, 225, 490, 300, 410, 300)
   fill('red')
   textFont(font, 15)
   text('Bubble Pop!', 450, 260)
   textSize(10)
-  text('15 Points to Win', 450, 280)
+  text('30 Points to Win', 450, 280)
   
-  fill(220, 250, 100, 200)
-  quad(605, 225, 695, 225, 690, 300, 610, 300)
+  fill(220, 250, 100)
+  quad(601, 225, 697, 225, 690, 300, 610, 300)
   fill('blue')
   textFont(font, 10)
   text('Whack-A-Mole!', 650, 260)
-  text('15 Points to Win', 650, 280)
+  text('35 Points to Win', 650, 280)
 }
 
 function drawInstructions() {
-  background(100, 100, 200)
+  background(130, 100, 240)
   textFont(font, 40)
   textAlign(CENTER)
   text("You will play 3 games.", width/2, height/2 -150)
   fill(255, 255, 255)
   text("Instructions will appear on the screen.", width/2, height/2 - 50)
-  fill(255, 100, 0)
+  fill(255, 100, 100)
   text("Each game will last 30 seconds.", width/2, height/2+50)
   textSize(30)
   fill(255, 90, 200)
   text('Advance to games.', width-200, height - 140)
   text('Click anywhere to continue!', width-247, height - 100)
+  textFont(font, 20)
+  text('Press v to play/pause music.', 150, height- 10)
 }
 
 
@@ -223,8 +248,8 @@ function drawGame1() {
   // theta += .5
   drawTarget(xloc, yloc, xWidth, numberofRings)
   xloc += speed
-  yloc += sin(theta)
-  // yloc = map(sin(theta), -1, 1, 200, 500)
+  // yloc += sin(theta)
+  yloc = map(sin(theta), -1, 1, 200, 500)
   if (xloc >= width + 100) {
     xloc = 0
     xWidth -= 2
@@ -234,10 +259,21 @@ function drawGame1() {
   
   image(arrow, mouseX - 50, mouseY)
   arrow.resize(100, 100)
-  
   let v0 = createVector(width/2, 590)
   let v1 = createVector(mouseX, mouseY)
   drawAim(v0, v1, 'black')
+  
+  
+  drawTarget(760, 80, 100, numberofRings)
+  textFont(font, 9)
+  text('10', 760, 37)
+  text('15', 760, 45)
+  text('20', 760, 53)
+  fill(135, 220, 245)
+  text('25', 760, 60)
+  text('30', 760, 67)
+  text('40', 760, 75)
+  text('50', 760, 83)
   
   fill(200, 200, 250)
   textFont(font, 50)
@@ -270,16 +306,7 @@ function drawTarget(xloc, yloc, xWidth, numberofRings) {
   
   }
 }
-// function drawTarget(x, y, xWidth, numberofRings) {
-//   let color = 255 / numberofRings *3 
-//   rings = xWidth / numberofRings
-//   for (let i = 0; i < numberofRings; i++) {
-//     fill(i * color, 200, 250)
-//     strokeWeight(1)
-//     stroke(0, 0, 0)
-//     ellipse(xloc, yloc, xWidth - i*rings, xWidth - i*rings)
-// }
-// }
+
 
 function drawAim(base, vector, color) {
   push()
@@ -306,7 +333,7 @@ function drawGame2() {
   for (let balloon of balloons) {
     noStroke()
     fill(balloon.clr)
-    ellipse(balloon.x, balloon.y, balloon.size/2)
+    ellipse(balloon.x, balloon.y, balloon.size/2, balloon.size - 10)
     let d = dist(mouseX, mouseY, balloon.x, balloon.y)
     
     if (d < balloon.size/2.5 && mouseIsPressed && timeLeft > 0) {
@@ -316,7 +343,7 @@ function drawGame2() {
     if (balloon.size === 300 && timeLeft > 0){
       balloons.dead = true
       balloon.x = random(0, width)
-      balloon.y = random(0, height)
+      balloon.y = random(200, height)
       balloon.size = 50
       balloonscore += 1
     
@@ -332,7 +359,6 @@ function drawGame2() {
   text("Hold down mouse to inflate bubble", width/2, 100)
   drawSprites();
   
-
   text(balloonscore, width - 200, 150)
   
   timeLeft = max(timeLeft, 0)
@@ -426,10 +452,13 @@ class Character {
 
 function drawGame4() {
   // background(255, 255, 255)
-  if (dartsscore > 1000 && balloonscore > 15 && molescore > 15) {
+  if (dartsscore >= 1000 && balloonscore >= 30 && molescore >= 35) {
   fill(200, 200, 200)
   textFont(font, 40)
   textAlign(CENTER)
+  fill(0)
+  text("Your score: ", 150, 100)
+  text(dartsscore + balloonscore + molescore, 100, 150)
   text("You Win!", width/2, height/2 - 250)
   text("Pick your prize!", width/2, height/2 - 200)
   noStroke()
@@ -469,11 +498,15 @@ function drawGame4() {
   fill(200, 200, 200)
   textFont(font, 40)
   textAlign(CENTER)
+  fill(0)
+  text("Your score: ", 150, 100)
+  text(dartsscore + balloonscore + molescore, 100, 150)
   text("You Didn't Get Enough Points", width/2, height/2 - 50)
   text("Try Again!", width/2, height/2)
   text("Press the right arrow to restart!", width/2, height/2 + 50)
   }
 }
+
 
 function mousePressed() {
   let timeLeft = ((maxTime - timePassed) / 1000).toFixed(0)
@@ -492,7 +525,7 @@ function mousePressed() {
   let dart = createSprite(mouseX, mouseY, dartWidth, 10)
   
   dart.velocity.x += dartspeed
-  dart.velocity.y += sin(theta)
+  dart.velocity.y += 0
   // dart.velocity.y += map(sin(theta), -1, 1, 200, 500)
   
     
@@ -511,31 +544,24 @@ function mousePressed() {
   } else if (dist(mouseX, mouseY, xloc, yloc) < ((xWidth-(0*rings))/2) && timeLeft > 0) {
     dartsscore += 10
   }
-  } else if (game === three){
-  let needleWidth = 2
-  let needle = createSprite(mouseX, mouseY, needleWidth, 10)
-  
-  needle.velocity.x = 0
-  needle.velocity.y = 0
-  
-  } else if (game === five) {
+  } else if (game === five && dartsscore >= 1000 && balloonscore >= 30 && molescore >= 35) {
    background(255, 255, 255)
     if (mouseX > 0 && mouseX<300) {
       textFont(font, 50)
       fill(0, 0, 0)
       textAlign(CENTER)
       text("You picked the Rubik's Cube!", width/2, 200)
-      text("Press the right arrow to restart!", width/2, height/2 + 50)
+      text("Press the right arrow to restart!", width/2, height-20)
     } else if (mouseX>350 && mouseX< 600 && mouseY > height/2) {
       textFont(font, 50)
       textAlign(CENTER)
       text("You picked the Teddy Bear!", width/2, 200)
-      text("Press the right arrow to restart!", width/2, height/2 + 50)
+      text("Press the right arrow to restart!", width/2, height-20)
     } else if (mouseX>600 && mouseY > height/2) {
       textFont(font, 50)
       textAlign(CENTER)
       text("You picked the Basketball!", width/2, 200)
-      text("Press the right arrow to restart!", width/2, height/2 + 50)
+      text("Press the right arrow to restart!", width/2, height-20)
       }
     }
 }
