@@ -264,16 +264,16 @@ function drawGame1() {
   drawAim(v0, v1, 'black')
   
   
-  drawTarget(760, 80, 100, numberofRings)
+  drawTarget(750, 80, 100, numberofRings)
   textFont(font, 9)
-  text('10', 760, 37)
-  text('15', 760, 45)
-  text('20', 760, 53)
+  text('10', 750, 37)
+  text('15', 750, 45)
+  text('20', 750, 53)
   fill(135, 220, 245)
-  text('25', 760, 60)
-  text('30', 760, 67)
-  text('40', 760, 75)
-  text('50', 760, 83)
+  text('25', 750, 60)
+  text('30', 750, 67)
+  text('40', 750, 75)
+  text('50', 750, 83)
   
   fill(200, 200, 250)
   textFont(font, 50)
@@ -287,8 +287,8 @@ function drawGame1() {
     textSize(50)
     textAlign(CENTER)
     fill(0, 0, 0)
-    text("Advance to next game!", width / 2, height / 2 + 75)
-    text("Press the right key.", width / 2, height / 2 + 120)
+    text("Advance to next game!", width / 2, height / 2 + 175)
+    text("Press the right arrow key.", width / 2, height / 2 + 220)
   }
  
  
@@ -356,7 +356,8 @@ function drawGame2() {
   fill(250, 250, 250)
   textFont(font, 40)
   textAlign(CENTER)
-  text("Hold down mouse to inflate bubble", width/2, 100)
+  text("Hold down mouse to inflate balloon", width/2, 100)
+  text("until it pops.", width/2, 150)
   drawSprites();
   
   text(balloonscore, width - 200, 150)
@@ -366,8 +367,8 @@ function drawGame2() {
     textSize(50)
     textAlign(CENTER)
     fill(0, 0, 0)
-    text("Advance to next game! >", width / 2, height / 2 + 75)
-    text("Press the right key.", width / 2, height / 2 + 120)
+    text("Advance to next game!", width / 2, height / 2 + 175)
+    text("Press the right arrow key.", width / 2, height / 2 + 220)
   }
  
 }
@@ -405,7 +406,7 @@ function drawGame3() {
     textSize(50)
     textAlign(CENTER)
     fill(0, 0, 0)
-    text("Press the right key! >", width / 2, height / 2 + 75)
+    text("Press the right arrow key!", width / 2, height / 2 + 175)
   }
   
 }
@@ -473,6 +474,14 @@ function drawGame4() {
   line(width/2+30, height/2+50, width/2+60, height/2+20)
   line(width/2-30, height/2+140, width/2-60, height/2+160)
   line(width/2+30, height/2+140, width/2+60, height/2+160)
+  fill(0)
+  ellipse(430, 275, 20)
+  ellipse(470, 275, 20)
+  noFill()
+  stroke(0)
+  strokeWeight(2)
+  arc(450, 300, 40, 30, 0, PI)
+  
     
  for (let i = 0; i<6; i++) {
     for(let v = 0; v<3; v++) {
